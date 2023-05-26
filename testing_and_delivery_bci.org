@@ -1,0 +1,221 @@
+# -*- org-confirm-babel-evaluate: nil; -*-
+#+AUTHOR: Dan Čermák
+#+DATE: May 27 2022
+#+EMAIL: dcermak@suse.com
+#+TITLE: Testing and Delivery of the Base Container Images
+# #+SUBTITLE: Testing Container Images with Python and Pytest
+
+#+REVEAL_ROOT: ./node_modules/reveal.js/
+#+REVEAL_THEME: simple
+#+REVEAL_PLUGINS: (highlight notes history)
+#+OPTIONS: toc:nil
+#+REVEAL_DEFAULT_FRAG_STYLE: appear
+#+REVEAL_INIT_OPTIONS: transition: 'none', hash: true
+#+OPTIONS: num:nil toc:nil center:nil reveal_title_slide:nil
+#+REVEAL_EXTRA_CSS: ./node_modules/@fortawesome/fontawesome-free/css/all.min.css
+#+REVEAL_EXTRA_CSS: ./custom-style.css
+#+REVEAL_HIGHLIGHT_CSS: ./node_modules/reveal.js/plugin/highlight/zenburn.css
+
+#+REVEAL_TITLE_SLIDE: <h2 class="title">%t</h2>
+#+REVEAL_TITLE_SLIDE: <p class="subtitle" style="color: Gray;">%s</p>
+#+REVEAL_TITLE_SLIDE: <p class="author">%a</p>
+#+REVEAL_TITLE_SLIDE: <div style="float:left"><a href="https://events.opensuse.org/conferences/oSC23/" target="_blank"><img src="./media/oSC_city_design.svg" height="50px"/></a></div>
+#+REVEAL_TITLE_SLIDE: <div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
+#+REVEAL_TITLE_SLIDE: CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
+
+* who -u
+
+Dan Čermák
+
+@@html: <div style="float:center">@@
+@@html: <table class="who-table">@@
+@@html: <tr><td><i class="fab fa-suse"></i></td><td> Software Developer @SUSE, BCI Release Engineer</td></tr>@@
+@@html: <tr><td><i class="fab fa-fedora"></i></td><td> i3 SIG, Package maintainer</td></tr>@@
+@@html: <tr><td><i class="far fa-heart"></i></td><td> Developer Tools, Testing and Documentation, Home Automation</td></tr>@@
+@@html: <tr></tr>@@
+@@html: <tr></tr>@@
+@@html: <tr><td><i class="fa-solid fa-globe"></i></td><td> <a href="https://dancermak.name/">https://dancermak.name</a></td></tr>@@
+@@html: <tr><td><i class="fab fa-github"></i></td><td> <a href="https://github.com/dcermak/">dcermak</a></td></tr>@@
+@@html: <tr><td><i class="fab fa-mastodon"></i></td><td> <a href="https://mastodon.social/@Defolos">@Defolos@mastodon.social</a></td></tr>@@
+@@html: <tr><td><i class="fab fa-twitter"></i></td><td> <a href="https://twitter.com/@DefolosDC">@DefolosDC</a></td></tr>@@
+@@html: </table>@@
+@@html: </div>@@
+
+
+* What is SLE BCI?
+
+#+ATTR_REVEAL: :frag (appear)
+- set of open source container images based on SLES
+- permissive license, free to use & redistribute ([[https://www.suse.com/licensing/eula/#bci][T&C apply]])
+- available for =x86_64=, =aarch64=, =ppc64le= & =s390x=
+- grab them from [[https://registry.suse.com/][=registry.suse.com=]]
+
+#+ATTR_REVEAL: :frag (appear)
+flavors:
+#+ATTR_REVEAL: :frag (appear)
+- base images: =base=, =micro=, =minimal=, =busybox=
+- language stack: =go=, =openjdk=, =python=, etc.
+- application: =rmt=, =postgresql=, =registry=, …
+
+
+* How it all started
+
+@@html: <img src="./media/initial_setup.svg"/>@@
+
+
+* Then .Net got out of date…
+
+#+ATTR_REVEAL: :frag (appear) :frag_idx 1
+let's automate things!
+
+#+ATTR_REVEAL: :frag (appear) :frag_idx 2
+@@html: <img src="./media/dotnet_updater.svg"/>@@
+
+
+* And then it grew…
+#+ATTR_REVEAL: :frag (appear)
+- more images: @@html:<i class="fa-brands fa-node"></i>@@, @@html:<i class="fa-brands fa-java"></i>@@, @@html:<i class="fa-brands fa-python"></i>@@, .Net, micro, minimal, busybox, @@html:<i class="fa-brands fa-golang"></i>@@, ruby, [[https://github.com/SUSE/rmt][RMT]], …
+- second service pack: SP3 & SP4
+- more formal requirements
+
+#+REVEAL: split
+#+ATTR_REVEAL: :frag (appear) :frag_idx 1
+let's automate things!
+
+#+ATTR_REVEAL: :frag (appear) :frag_idx 2
+@@html: <img src="./media/build_recipe_generator.svg"/>@@
+
+
+* Oh right we should be testing these things…
+
+#+ATTR_REVEAL: :frag (appear)
+- [[https://github.com/SUSE/BCI-tests/][BCI testsuite]] by [[https://github.com/evrardjp][Jean-Philippe Evrard]] & Dan Čermák
+- [[https://pytest.org/][pytest]], [[https://testinfra.readthedocs.io/][testinfra]], @@html:<i class="fa-solid fa-tape"></i>@@ and 🧙
+- ran just on @@html:<i class="fa-brands fa-github"></i>@@
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/container_tests.svg"/>@@
+
+
+* Testing evolved
+#+ATTR_REVEAL: :frag (appear)
+- core split out into [[https://github.com/dcermak/pytest_container][=pytest_container=]]
+# - tests run in openQA
+# - integration into release workflow
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/test_matrix.svg"/>@@
+
+
+* So where are we now?
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/BCI_release_and_qa.svg"/>@@
+
+
+* Let us go public!
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/BCI_release_and_qa_with_OBS.svg"/>@@
+
+
+* Are we there yet?
+
+#+ATTR_REVEAL: :frag (appear)
+- it's not really public…
+- templates are not getting applied periodically
+- template creation requires manual work
+- manual changes possible
+- .Net separate from rest
+
+#+ATTR_REVEAL: :frag (appear)
+🆕 OBS Feature: =<scmsync>= 🆕
+
+#+ATTR_REVEAL: :frag (appear)
+\Rightarrow dockerfile generator should be the *single source of truth*
+
+
+* Let's move the templates to GitHub
+
+#+ATTR_REVEAL: :frag (appear)
+- =main= contains the code
+- =sle15-spX= / =Tumbleweed= contains rendered templates + changelog
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/github_workflow.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/github_workflow_2.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/github_workflow_3.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/github_workflow_4.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/bot_report_on_scratch_build.png"/>@@
+
+
+* Let's move *everything* to ~git~
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/github_deploy_workflow.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/github_deploy_workflow_1.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/github_deploy_workflow_2.svg"/>@@
+
+#+REVEAL: split
+@@html: <img src="./media/github_deploy_workflow_3.svg"/>@@
+
+
+* …Are we there yet…?
+
+#+ATTR_REVEAL: :frag (appear)
+@@html: <img src="./media/BCI_release_and_qa_with_OBS_and_GH.svg"/>@@
+
+* What is left to do?
+
+#+ATTR_REVEAL: :frag (appear)
+- run tests on each pull request
+- polish & publish Tumbleweed BCIs
+- add support for Tumbleweed to =BCI-tests=
+- ALP based BCI
+
+
+* Thank you 💚
+
+Alexander Herzig, Bruno Leon, Darragh O'Reilly, Dirk Müller, Dmitri Popov,
+Fabian Vogt, Felix Niederwanger, Frederic Crozat, Ivan Lausuch, Jose Lausuch,
+Marco Varlese, Marcus Meissner, Martin Loviska, Maurizio Dati, Michal Švec, Olaf
+Kirch, Pavel Dostál, Ricardo Branco, Vincent Moutoussamy, William Brown, Witold
+Bedyk
+
+
+* Give me the source!
+
+#+ATTR_REVEAL: :frag (appear)
+- @@html: <i class="fab fa-github"></i>@@ [[https://github.com/SUSE/BCI-dockerfile-generator][=SUSE/BCI-dockerfile-generator=]]
+
+- @@html: <i class="fab fa-github"></i>@@ [[https://github.com/SUSE/BCI-tests][=SUSE/BCI-tests=]]
+
+- @@html: <i class="fab fa-github"></i>@@ [[https://github.com/dcermak/pytest_container][=dcermak/pytest_container=]]
+
+- @@html:<i class="fa-solid fa-person-chalkboard"></i>@@ [[https://dcermak.github.io/pytest_container-presentation/pytest_container.html][=dcermak.github.io/pytest_container-presentation=]]
+
+- [[https://build.opensuse.org/project/show/devel:BCI:SLE-15-SP4][devel:BCI:SLE-15-SP4]], [[https://build.opensuse.org/project/show/devel:BCI:SLE-15-SP5][devel:BCI:SLE-15-SP5]], [[https://build.opensuse.org/project/show/devel:BCI:Tumbleweed][devel:BCI:Tumbleweed]]
+
+- @@html:<i class="fa-solid fa-person-chalkboard"></i>@@ [[https://dcermak.github.io/testing_and_delivery_bci/testing_and_delivery_bci.html][=dcermak.github.io/testing_and_delivery_bci=]]
+
+
+* Questions?
+
+#+ATTR_REVEAL: :frag (appear)
+Answers!

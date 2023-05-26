@@ -1,0 +1,19 @@
+* Testing and Delivery of the Base Container Images
+
+This repository contains the slides for the presentation "Testing and Delivery
+of the Base Container Images" held at the openSUSE Conference 2023.
+
+You can find the rendered slides here: [[https://dcermak.github.io/testing_and_delivery_bci/testing_and_delivery_bci.html][dcermak.github.io/testing_and_delivery_bci]].
+
+
+** Building the slides
+
+You can create the html slides yourself from within Emacs by opening the
+[[./testing_and_delivery_bci.org]] file, launching =org-mode= and executing ~(require
+'ox-reveal)~ (you might have to install =ox-reveal= beforehand). Then export the
+org file to reveal.js (this is by default bound to the keychord =C-c C-e R R=).
+
+If you are not a Emacs user, then just install Emacs and execute:
+#+begin_src bash
+emacs testing_and_delivery_bci.org -Q --batch -l export-init.el -f org-reveal-export-to-html --kill
+#+end_src
